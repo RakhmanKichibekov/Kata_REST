@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<form th:method="POST" th:action="@{update}" th:object="${user}">
+    <label for="id">ID(генерируется за вас): </label>
+    <input type="text" th:field="*{id}" id="id" readonly="readonly"/>
+    <br/>
+    <label for="login">Введите логин: </label>
+    <input type="text" th:field="*{username}" id="login"/>
+    <br/>
+    <label for="pass">пароль(неизменяемый): </label>
+    <input type="password" th:field="*{password}" id="pass"/>
+    <br/>
+    <label for="name">Введите имя: </label>
+    <input type="text" th:field="*{firstname}" id="name"/>
+    <br/>
+    <label for="lastname">Введите фамилию: </label>
+    <input type="text" th:field="*{lastname}" id="lastname"/>
+    <br/>
+    <label for="age">Введите возраст: </label>
+    <input type="number" th:field="*{age}" id="age"/>
+    <br/>
+    <p>
+        <label>Roles:
+            <input type="checkbox" name="roles"
+                   th:each="role : ${allRoles}"
+                   th:text="${role.name}"
+                   th:value="${role.id}"
+                   th:field="*{roles}"
+            />
+        </label>
+    </p>
+    <br/><br>
+    <input type="submit" value="Изменить"/>
+</form>
+
+<br>
+<form th:method="POST" th:action="*{user.getIdByDelete()}">
+    <input type="submit" value="Удалить"/>
+</form>
+<br>
+
+<a href="/admin/users">перейти к списку пользователей</a>
+
+<br><br/><br>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Выйти</button>
+</form>
+
+</body>
+</html>

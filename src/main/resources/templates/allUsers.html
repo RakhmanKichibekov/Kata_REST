@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+<h1>Пользователи</h1>
+<br>
+<table>
+    <thead>
+    <tr>
+        <th>_____ID_____</th>
+        <th>____Логин____</th>
+        <th>_____Имя_____</th>
+        <th>___Фамилия___</th>
+        <th>___Возраст___</th>
+        <th>_____Роли____</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.getId()}">Id</td>
+        <td th:text="${user.getUsername()}">Login</td>
+        <td th:text="${user.getFirstname()}">Name</td>
+        <td th:text="${user.getLastname()}">Lastname</td>
+        <td th:text="${user.getAge()}">Age</td>
+        <td th:text="${user.getRoles()}">Roles</td>
+        <td><a th:href="${user.getIdByChange()}">Изменить/Удалить</a></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<a href="users/new">создать пользователя</a>
+
+<br><br/><br>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Выйти</button>
+</form>
+
+</body>
+</html>
