@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
+import ru.kata.spring.boot_security.demo.security.Role;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +30,7 @@ public class User {
     @Column(name = "age")
     private byte age;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -44,12 +46,6 @@ public class User {
         this.lastname = lastname;
         this.age = age;
         this.roles = roles;
-    }
-
-    public User(String firstname, String lastname, byte age) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.age = age;
     }
 
     public long getId() {

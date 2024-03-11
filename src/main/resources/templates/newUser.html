@@ -26,7 +26,7 @@
     <input type="number" th:field="*{age}" id="age"/>
     <br/>
     <p>
-        <label>Roles:
+        <label>Роли:
             <input type="checkbox" name="roles"
                    th:each="role : ${allRoles}"
                    th:text="${role.name}"
