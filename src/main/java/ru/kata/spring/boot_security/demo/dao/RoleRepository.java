@@ -7,7 +7,6 @@ import ru.kata.spring.boot_security.demo.security.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
-    @Override
     Role save(Role role);
 }
 
