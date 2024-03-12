@@ -83,7 +83,6 @@ public class UserServiceImpl implements UserService {
         userDao.save(admin);
     }
 
-    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
