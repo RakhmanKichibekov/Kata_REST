@@ -1,8 +1,8 @@
 package ru.kata.spring.boot_security.demo.security;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.Collection;
@@ -51,6 +51,6 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
+        return roles.stream().map(RoleAuthority::new).collect(Collectors.toList());
     }
 }
