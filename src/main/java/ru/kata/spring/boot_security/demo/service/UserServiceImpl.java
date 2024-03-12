@@ -64,6 +64,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
     @Transactional
     public void addUsers() {
         Role roleUser = roleDao.save(new Role("ROLE_USER"));
@@ -81,9 +86,5 @@ public class UserServiceImpl implements UserService {
 
         userDao.save(user);
         userDao.save(admin);
-    }
-
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }
