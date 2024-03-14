@@ -10,10 +10,10 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/admin")
 public class AdminController {
     private final UserService userService;
     private final RoleRepository roleDao;
@@ -24,49 +24,39 @@ public class AdminController {
         this.roleDao = roleDao;
     }
 
-    @GetMapping()
-    public String showAdminPage(){
-        return "admin";
-    }
-
-    @GetMapping("/users")
-    public String getAllUsers(Model model){
-        model.addAttribute("users", userService.getAllUsers());
-        return "allUsers";
-    }
-
-    @GetMapping(value = "/users/new")
-    public String showNewUserForm(Model model) {
+    @GetMapping("/adminPage")
+    public String getAdminPage(@RequestParam(value = "userId", required = false) Long id,
+                               Model model, Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("userInfo", user);
         model.addAttribute("user", new User());
+        User userById = new User();
+        if (id != null) {
+            System.out.println("AAAAA " + id);
+            userById = userService.findUserById(id);
+        }
+        model.addAttribute("userById", userById);
+        model.addAttribute("users", userService.getAllUsers());
         List<Role> roleList = roleDao.findAll();
         model.addAttribute("allRoles", roleList);
-        return "newUser";
+        return "adminPage";
     }
 
-    @GetMapping(value = "/users/edit")
-    public String showEditUserForm(Model model, @RequestParam int id) {
-        User user = userService.findUserById(id);
-        model.addAttribute("user", user);
-        List<Role> roleList = roleDao.findAll();
-        model.addAttribute("allRoles", roleList);
-        return "editUser";
-    }
-
-    @PostMapping(value = "/users/create")
+    @PostMapping("/adminPage/create")
     public String createUser(@ModelAttribute("user") User user) {
         userService.saveUser(user);
-        return "redirect:/admin/users";
+        return "redirect:/adminPage#adminPanel";
     }
 
-    @PostMapping(value = "/users/update")
-    public String updateUser(@ModelAttribute("user") User user) {
+    @PostMapping("/adminPage/update")
+    public String updateUser(@ModelAttribute("userById") User user) {
         userService.updateUser(user);
-        return "redirect:/admin/users";
+        return "redirect:/adminPage#adminPanel";
     }
 
-    @PostMapping(value = "/users/delete")
-    public String deleteUser(@RequestParam int id) {
+    @PostMapping("/adminPage/delete")
+    public String deleteUser(@RequestParam("userId") Long id) {
         userService.deleteUserById(id);
-        return "redirect:/admin/users";
+        return "redirect:/adminPage#adminPanel";
     }
 }

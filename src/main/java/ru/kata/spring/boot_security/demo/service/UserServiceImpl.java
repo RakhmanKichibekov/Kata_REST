@@ -46,6 +46,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveUser(User user) {
+        for(User us: getAllUsers()){
+            if (us.getUsername().equals(user.getUsername())){
+                return;
+            }
+        }
         user.setPassword(passwordEncoder().encode(user.getPassword()));
         userDao.save(user);
     }
@@ -54,7 +59,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUser(User user) {
         if (user != null) {
-            saveUser(user);
+            user.setPassword(passwordEncoder().encode(user.getPassword()));
+            userDao.save(user);
         }
     }
 
@@ -75,14 +81,14 @@ public class UserServiceImpl implements UserService {
         Role roleUser = roleDao.save(new Role("ROLE_USER"));
         List<Role> listRoleUser = new ArrayList<>();
         listRoleUser.add(roleUser);
-        User user = new User("user", "$2a$12$2uQtsDRFW3Y0z6YkO3/Bw.sbypeZ1S.JVZ64sqw.xc.l1PwQK/gGq",
+        User user = new User("user@mail.ru", "$2a$12$2uQtsDRFW3Y0z6YkO3/Bw.sbypeZ1S.JVZ64sqw.xc.l1PwQK/gGq",
                 "Rahman", "Kichibekov", (byte) 21, listRoleUser);
 
         Role roleAdmin = roleDao.save(new Role("ROLE_ADMIN"));
         List<Role> listRoleAdmin = new ArrayList<>();
         listRoleAdmin.add(roleAdmin);
         listRoleAdmin.add(roleUser);
-        User admin = new User("admin", "$2a$12$JsAKl/AMpXLZUyNDrmnKW.vu2.j2qoiILIPNS67eAWvVDE9i0AS4m",
+        User admin = new User("admin@mail.ru", "$2a$12$JsAKl/AMpXLZUyNDrmnKW.vu2.j2qoiILIPNS67eAWvVDE9i0AS4m",
                 "Admin", "Adminov", (byte) 45, listRoleAdmin);
 
         userDao.save(user);
