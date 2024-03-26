@@ -499,7 +499,7 @@
 
                 <label for="roleEditUserDelete" class="form-label fw-bold">Roles:</label>
                 <select class="form-select" id="roleEditUserDelete" multiple disabled>
-                    ${allRoles.map(role => `<option value="${role.id}">${role.name}</option>`)}
+                    ${user.roles.map(role => `<option value="${role.id}">${role.name}</option>`)}
                 </select>
             </form>
         `;
