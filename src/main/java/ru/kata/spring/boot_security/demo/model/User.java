@@ -2,6 +2,10 @@ package ru.kata.spring.boot_security.demo.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,18 +18,24 @@ public class User {
     private long id;
 
     @Column(name = "username", nullable = false, unique = true)
+    @NotEmpty(message = "login should not empty")
+    @Email
     private String username;
 
     @Column(name = "password", nullable = false)
+    @NotEmpty(message = "password should not empty")
     private String password;
 
     @Column(name = "firstname")
+    @NotEmpty(message = "firstname should not empty")
     private String firstname;
 
     @Column(name = "lastname")
+    @NotEmpty(message = "lastname should not empty")
     private String lastname;
 
     @Column(name = "age")
+    @Min(value = 0, message = "Age should be greater than 0")
     private byte age;
 
     @ManyToMany(fetch = FetchType.EAGER)

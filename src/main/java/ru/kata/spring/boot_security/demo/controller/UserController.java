@@ -16,10 +16,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/userPage")
+    @GetMapping("/user")
     public String getUserPage(Model model, Principal principal){
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("userInfo", user);
-        return "userPage";
+        return "user";
     }
 }
